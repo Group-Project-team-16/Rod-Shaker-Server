@@ -7,8 +7,23 @@ const io = require('socket.io')(http)
 
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+let scoreOne = 0
+let scoreTwo = 0
+
 io.on('connection',(socket)=>{
     console.log('User Connected')
+        socket.on('narik1', (score) => {
+            scoreOne = score
+            console.log(scoreOne);
+            io.emit('narik1', scoreOne)
+        })
+
+        socket.on('narik2', (score) => {
+            scoreTwo = score
+            io.emit('narik2', scoreTwo)
+        })
 })
 
 http.listen(PORT,()=>{
